@@ -8,7 +8,7 @@ require("dotenv").config({ path: "./config.env" });
 const port = process.env.PORT || 5000;
 //app.use(cors());
 app.use(cors({
-  origin: ["http://localhost:3000", "https://routinifly.netlify.app/"],
+  origin: ["http://localhost:3000", "https://routinifly.netlify.app"],
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
