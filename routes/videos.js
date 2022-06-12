@@ -35,7 +35,7 @@ videoRoutes.route("/videos/videoscrape").post(async function(req, res){
         let title = "";
         const vid = await page.$$eval('#video-title', element =>{
             let i = 0;
-            while(i<element.length && element[i]==undefined ){
+            while(i<element.length && element[i].href==undefined ){
                 i++;
             }
             console.log(i);
