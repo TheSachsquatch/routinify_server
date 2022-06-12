@@ -13,7 +13,7 @@ const ObjectId = require("mongodb").ObjectId;
 
 const playwright = require('playwright');
 
-videoRoutes.route("/videoscrape").post(async function(req, res){
+videoRoutes.route("/videos/videoscrape").post(async function(req, res){
 
     const exer = req.body.exercise;
     const exer_split = exer.split(" ");
@@ -53,7 +53,7 @@ videoRoutes.route("/videoscrape").post(async function(req, res){
         })
 })
 
-videoRoutes.route("/video")
+videoRoutes.route("/videos/video")
     .get(function(req, res){
         let db_connect = dbo.getDb("employees");
         let myquery = {exercise: req.query.exercise};
