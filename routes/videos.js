@@ -16,6 +16,10 @@ const playwright = require('playwright-chromium');
 videoRoutes.route("/videos/videoscrape").post(async function(req, res){
 
     const exer = req.body.exercise;
+    if(exer ==null){
+        res.json({"found": false})
+    }
+    console.log(exer);
     const exer_split = exer.split(" ");
     let query_string= "";
     query_string = exer.replace(/ /g, '+');
@@ -26,11 +30,15 @@ videoRoutes.route("/videos/videoscrape").post(async function(req, res){
 
     const page = await browser.newPage();
     await page.goto(url);
+    console.log(url);
     let video = "";
     let title = "";
     const vid = await page.$$eval('#video-title', element =>{
         return {href: element[1].href, title: element[1].title};
     })
+    if(vid ==null){
+        res.json({"found": false})
+    }
     video = vid.href;
     title = vid.title;
     await browser.close();
