@@ -15,47 +15,53 @@ const playwright = require('playwright-chromium');
 
 videoRoutes.route("/videos/videoscrape").post(async function(req, res){
 
-    const exer = req.body.exercise;
-    if(exer ==null){
-        res.json({"found": false})
-    }
-    console.log(exer);
-    const exer_split = exer.split(" ");
-    let query_string= "";
-    query_string = exer.replace(/ /g, '+');
-    const query = "how+to+"+query_string;
-    url = 'https://www.youtube.com/results?search_query=' + query;
-    const browser = await playwright.chromium.launch({ 
-    })
-
-    const page = await browser.newPage();
-    await page.goto(url);
-    console.log(url);
-    let video = "";
-    let title = "";
-    const vid = await page.$$eval('#video-title', element =>{
-        return {href: element[1].href, title: element[1].title};
-    })
-    if(vid ==null){
-        res.json({"found": false})
-    }
-    video = vid.href;
-    title = vid.title;
-    await browser.close();
-
-    let video_embed = video.replace("watch?v=", "embed/")
-    let db_connect = dbo.getDb("employees");
-    let myobj = {exercise: exer, video: video_embed, title: title};
-    db_connect
-        .collection("videos")
-        .insertOne(myobj, function(err, result){
-            if(result!=null){
-                res.json(myobj);
-            }
-            else{
-                console.log(result);
-            }
+    try{
+        const exer = req.body.exercise;
+        if(exer ==null){
+            res.json({"found": false})
+        }
+        console.log(exer);
+        const exer_split = exer.split(" ");
+        let query_string= "";
+        query_string = exer.replace(/ /g, '+');
+        const query = "how+to+"+query_string;
+        url = 'https://www.youtube.com/results?search_query=' + query;
+        const browser = await playwright.chromium.launch({ 
         })
+
+        const page = await browser.newPage();
+        await page.goto(url);
+        console.log(url);
+        let video = "";
+        let title = "";
+        const vid = await page.$$eval('#video-title', element =>{
+            return {href: element[1].href, title: element[1].title};
+        })
+        if(vid ==null){
+            res.json({"found": false})
+        }
+        video = vid.href;
+        title = vid.title;
+        await browser.close();
+
+        let video_embed = video.replace("watch?v=", "embed/")
+        let db_connect = dbo.getDb("employees");
+        let myobj = {exercise: exer, video: video_embed, title: title};
+        db_connect
+            .collection("videos")
+            .insertOne(myobj, function(err, result){
+                if(result!=null){
+                    res.json(myobj);
+                }
+                else{
+                    console.log(result);
+                }
+            })
+    }
+    catch(err){
+        console.log(err)
+    }
+    
 })
 
 videoRoutes.route("/videos/video")
