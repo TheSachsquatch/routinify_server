@@ -18,13 +18,10 @@ videoRoutes.route("/videos/videoscrape").post(async function(req, res){
     const exer = req.body.exercise;
     const exer_split = exer.split(" ");
     let query_string= "";
-    for(word of exer_split){
-        query_string+=word+"+";
-    }
-    query_string = query_string.slice(0,-1);
+    query_string = exer.replace(/ /g, '+');
     const query = "how+to+"+query_string;
     url = 'https://www.youtube.com/results?search_query=' + query;
-    const browser = await playwright.chromium.launch({
+    const browser = await playwright.chromium.launch({ 
     })
 
     const page = await browser.newPage();
