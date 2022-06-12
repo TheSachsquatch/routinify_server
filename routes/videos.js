@@ -33,7 +33,7 @@ videoRoutes.route("/videos/videoscrape").post(async function(req, res){
     })
     video = vid.href;
     title = vid.title;
-    await page.close();
+    await browser.close();
 
     let video_embed = video.replace("watch?v=", "embed/")
     let db_connect = dbo.getDb("employees");
