@@ -25,6 +25,7 @@ app.use(express.json());
 app.use(require("./routes/record"));
 app.use(require("./routes/users"));
 app.use(require("./routes/videos"));
+app.use(require("./routes/videoscrape"))
 // get driver connection
 
 app.listen(port, () => {
