@@ -11,7 +11,7 @@ const dbo = require("../db/conn");
 // This help convert the id from string to ObjectId for the _id.
 const ObjectId = require("mongodb").ObjectId;
 
-const playwright = require('playwright');
+const playwright = require('playwright-chromium');
 
 videoRoutes.route("/videos/videoscrape").post(async function(req, res){
 
