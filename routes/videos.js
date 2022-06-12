@@ -21,7 +21,6 @@ videoRoutes.route("/videos/videoscrape").post(async function(req, res){
             res.json({"found": false})
         }
         console.log(exer);
-        const exer_split = exer.split(" ");
         let query_string= "";
         query_string = exer.replace(/ /g, '+');
         const query = "how+to+"+query_string;
@@ -35,10 +34,16 @@ videoRoutes.route("/videos/videoscrape").post(async function(req, res){
         let video = "";
         let title = "";
         const vid = await page.$$eval('#video-title', element =>{
+            let i = 0;
+            while(i<element.length && element[i]==undefined ){
+                i++;
+            }
+            console.log(i);
             return{
-            href: element[1].href,
-            title: element[1].title}
+            href: element[i].href,
+            title: element[i].title}
         })
+        
         if(vid ==null){
             res.json({"found": false})
             console.log(false)
