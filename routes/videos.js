@@ -35,10 +35,13 @@ videoRoutes.route("/videos/videoscrape").post(async function(req, res){
         let video = "";
         let title = "";
         const vid = await page.$$eval('#video-title', element =>{
-            return {href: element[1].href, title: element[1].title};
+            return{
+            href: element[1].href,
+            title: element[1].title}
         })
         if(vid ==null){
             res.json({"found": false})
+            console.log(false)
         }
         video = vid.href;
         title = vid.title;
